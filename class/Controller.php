@@ -25,6 +25,12 @@ class Controller
 
         ob_start();
         include(SP . 'views/' . $view);
-        echo trim(ob_get_clean());
+        die(trim(ob_get_clean()));
     }
+
+	public function loadModel($moduleName)
+	{
+		include(SP . 'models/' . strtolower($moduleName) . '.php');	
+		return new $moduleName();
+	}
 }
