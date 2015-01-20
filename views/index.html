@@ -1,1 +1,7 @@
-Jenga
+<?php include "layout/header.html"?>
+<body ms-controller="root">
+    <div>{{header | html}}</div>
+    <div ms-include-src="page"></div>
+    <div>{{footer}}</div>
+</body>
+<?php include "layout/footer.html"?>
