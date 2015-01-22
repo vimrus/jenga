@@ -19,7 +19,7 @@ require.config({
 });
 
 
-require(['avalon', "domReady!"], function() {
+require(['avalon', "domReady!", "mmRouter"], function() {
     avalon.templateCache.empty = "&nbsp;"
     avalon.define({
         $id: "root",
@@ -34,5 +34,4 @@ require(['avalon', "domReady!"], function() {
     
     require(['./modules/user/login'], function() {
     });
-    
 });
