@@ -7,5 +7,4 @@ $jenga->route(array(
     '/' => 'index/index',
 ));
 
-$jenga->config('config/jenga.php');
 $jenga->run();

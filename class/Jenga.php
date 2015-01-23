@@ -81,7 +81,9 @@ class Jenga
 
     public function run()
     {
-        include(SP . 'controllers/' . $this->module . '.php');
+        $config_file = SP . 'config/jenga.php';
+        if(file_exists($config_file)) include $config_file;
+        include(SP . 'api/' . $this->module . '.php');
         $className  = ucfirst($this->module) . 'Controller'; 
 
         $controller = new $className($this->method, $this->module, $this->action);
