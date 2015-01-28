@@ -1,11 +1,11 @@
 require(['mmRouter'], function() {
     var model = avalon.define({
         $id: 'root',
-        tasks: [{id:1,title:'task'}],
+        stages: [
+            [{id:1,title:'task'}, {id:2,title:'task2'}],
+            [{id:1,title:'task'}, {id:2,title:'task2'}],
+        ],
     })
 
-    avalon.history.start({
-        basepath: ''
-    })
     avalon.scan()
 })

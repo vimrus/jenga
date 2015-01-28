@@ -8,16 +8,31 @@
   <link href="/static/css/main.css" rel="stylesheet">
   <script src="/static/js/avalon/avalon.js"></script>
   <script src="/static/js/main.js"></script>
-  <style>
-  .ms-controller {
-      visibility: hidden;
-  }   
-  </style>
+  <style>.ms-controller{visibility: hidden;}</style>
 </head>
 <body ms-controller="root" class="ms-controller">
-  <div class="header">Jenga</div>
-  <ul id="task-list">
-    <li ms-repeat-task="tasks">{{task.title}}</li>
-  </ul>
+<div class="header">
+  <div class="container clearfix">
+    <h1><a class="header-logo" href="/">Jenga</a></h1>
+    <div class="header-search">
+      <form action="/search" method="get">
+        <input type="text" name="q" placeholder="搜索" autocomplete="off" spellcheck="false">
+      </form>
+    </div>
+    <div class="header-actions">
+      <a href="/">{{user.name}}</a></li>
+    </div>
+  </div>
+</div>
+<div class="main">
+  <div class="container clearfix">
+    <div ms-repeat-stage="stages" class="stage">
+      <div class="stage-title"></div>
+      <ul class="stage-body">
+        <li ms-repeat-task="stage">{{task.title}}</li>
+      </ul>
+    </div>
+  </div>
+</div>
 </body>
 </html>
