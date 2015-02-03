@@ -4,39 +4,13 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
   <title>Jenga</title>
-  <link href="/static/css/bootstrap.css" rel="stylesheet">
+  <link href="/static/css/zui.lite.min.css" rel="stylesheet">
   <link href="/static/css/main.css" rel="stylesheet">
   <script src="/static/js/avalon/avalon.js"></script>
   <script src="/static/js/main.js"></script>
   <style>.ms-controller{visibility: hidden;}</style>
 </head>
 <body ms-controller="root" class="ms-controller">
-<div class="header">
-  <div class="container clearfix">
-    <h1><a class="header-logo" href="/">Jenga</a></h1>
-    <div class="header-search">
-      <form action="/search" method="get">
-        <input type="text" name="q" placeholder="搜索" autocomplete="off" spellcheck="false">
-      </form>
-    </div>
-    <ul class="nav-list left">
-      <li class="nav-item"><a href="/dashboard">工作台</a></li>
-      <li class="nav-item"><a href="/calendar">日历</a></li>
-    </ul>
-    <div class="header-actions">
-      <a href="/">{{user.name}}</a></li>
-    </div>
-  </div>
-</div>
-<div class="main">
-  <div class="container clearfix">
-    <div ms-repeat-stage="stages" class="stage">
-      <div class="stage-title"></div>
-      <ul class="stage-body">
-        <li ms-repeat-task="stage">{{task.title}}</li>
-      </ul>
-    </div>
-  </div>
-</div>
+  <div ms-include-src="page"></div>
 </body>
 </html>
