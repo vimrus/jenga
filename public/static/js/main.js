@@ -2,35 +2,40 @@ require.config({
     baseUrl: '',
     paths: {
         jquery: 'jquery/jquery-2.1.1',
-        project: "../../../ui/project",
-        login: "../../../ui/login",
-        home: "../../../ui/home",
+        project: "../../../views/project",
+        login: "../../../views/login",
+        home: "../../../views/home",
     }
 });
 
-require(['mmRouter'], function() {
-    avalon.templateCache.empty = "&nbsp;"
+require(["project", "home", "login", "ready!", 'mmState'], function(project, home, login) {
     avalon.define({
         $id: "root",
-        page: "empty"
+        header: "views/header.html"
     })
     
-    avalon.router.get("/", function(){
-        require(['home'], function() {
-            avalon.log("home")
-        });
+    avalon.state("home", {
+        controller: "root",
+        url: '/',
+        views: {
+            "": {templateUrl: 'views/home.html'},
+        }
     })
 
-    avalon.router.get("/login", function(){
-        require(['login'], function() {
-            avalon.log("login")
-        });
+    avalon.state("login", {
+        controller: "root",
+        url: '/login',
+        views: {
+            "": {templateUrl: 'views/login.html'}
+        }
     })
 
-    avalon.router.get("/:project", function(){
-        require(['project'], function() {
-            avalon.log("project")
-        });
+    avalon.state("project", {
+        controller: "root",
+        url: '/:project',
+        views: {
+            "": {templateUrl: 'views/project.html'}
+        }
     })
 
     avalon.history.start({
@@ -38,4 +43,4 @@ require(['mmRouter'], function() {
     })
 
     avalon.scan()
-});
+})
