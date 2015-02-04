@@ -1,7 +1,10 @@
 <?php
-class IndexController extends Controller
-{
-    public function index()
-    {
-    }
-}
+include('bootstrap.php');
+
+$jenga = new Jenga();
+
+$jenga->route(array(
+    '/' => 'index/index',
+));
+
+$jenga->run();
