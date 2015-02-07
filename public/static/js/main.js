@@ -1,10 +1,15 @@
 require.config({
-    baseUrl: '',
+    baseUrl: '/static/js',
     paths: {
-        jquery: 'jquery/jquery-2.1.1',
-        project: "../../../views/project",
-        login: "../../../views/login",
-        home: "../../../views/home",
+        jquery: "jquery/jquery-2.1.1.js",
+        mmRouter: "avalon/mmRouter",
+        mmState: "avalon/mmState",
+        mmPromise: "avalon/mmPromise",
+        mmHistory: "avalon/mmHistory",
+        mmRequest: "avalon/mmRequest",
+        project: "jenga/project",
+        home: "jenga/home",
+        login: "jenga/login",
     }
 });
 
