@@ -1,22 +1,30 @@
 <?php
 include('bootstrap.php');
 
-$jenga = new Jenga();
+$app = new Jenga();
 
-$jenga->route(array(
-    '/' => 'index/index',
-    '/organizations' => 'organization/create',
-    '/organizations/:organization_id' => 'organization/info',
-    '/projects/' => 'project/create',
-    '/projects/:project_id' => 'project/info',
-    '/entries' => 'entry/create',
-    '/entries/:entry_id' => 'entry/info',
-    '/tasks' => 'task/create',
-    '/tasks/:task_id' => 'task/info',
-    '/members' => 'member/create',
-    '/members/:member_id' => 'member/info',
-    '/actions' => 'action/create',
-    '/actions/:action_id' => 'action/info',
-));
+$app->get('/actions', 'action/list');
+$app->get('/actions/:action_id', 'action/info');
+$app->post('/actions', 'action/create');
+$app->put('/actions/:action_id', 'action/update');
+$app->delete('/actions', 'action/delete');
 
-$jenga->run();
+$app->get('/projects', 'project/list');
+$app->get('/projects/:project_id', 'project/info');
+$app->post('/projects', 'project/create');
+$app->put('/projects/:project_id', 'project/update');
+$app->delete('/projects/:project_id', 'project/delete');
+
+$app->get('/entries', 'entry/list');
+$app->get('/entries/:entry_id', 'entry/info');
+$app->post('/entries', 'entry/create');
+$app->put('/entries/:entry_id', 'entry/update');
+$app->delete('/entries/:entry_id', 'entry/delete');
+
+$app->get('/tasks', 'task/list');
+$app->get('/tasks/:action_id', 'task/info');
+$app->post('/tasks', 'task/create');
+$app->put('/tasks/:task_id', 'task/update');
+$app->delete('/tasks/:task_id', 'task/delete');
+
+$app->run();
