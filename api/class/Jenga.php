@@ -9,6 +9,14 @@ class Jenga
 
     public $paramNames = array();
 
+    public $map = array(
+        'GET' => array(), 
+        'POST' => array(), 
+        'PUT' => array(), 
+        'PATCH' => array(), 
+        'DELETE' => array()
+    );
+
     public function __construct()
     {
         $this->method = strtolower($_SERVER['REQUEST_METHOD']);
@@ -28,9 +36,40 @@ class Jenga
         if (is_string($config) && file_exists($config)) include $config;
     }
 
-    public function route($routes)
+    public function addRoute($method, $pattern, $handler)
     {
-        foreach($routes as $route => $target)
+        $this->map[$method][$pattern] = $handler;
+    }
+
+    public function get($pattern, $handler)
+    {
+        $this->addRoute('GET', $pattern, $handler);
+    }
+
+    public function post($pattern, $handler)
+    {
+        $this->addRoute('POST', $pattern, $handler);
+    }
+
+    public function put($pattern, $handler)
+    {
+        $this->addRoute('PUT', $pattern, $handler);
+    }
+
+    public function patch($pattern, $handler)
+    {
+        $this->addRoute('PATCH', $pattern, $handler);
+    }
+
+    public function delete($pattern, $handler)
+    {
+        $this->addRoute('DELETE', $pattern, $handler);
+    }
+
+    public function route($map)
+    {
+        $method = strtoupper($_SERVER['REQUEST_METHOD']);
+        foreach($map[$method] as $route => $target)
         {
             // Construct a regex for route, from Slim framework.
             $patternAsRegex = preg_replace_callback(
@@ -83,6 +122,9 @@ class Jenga
     {
         $config_file = SP . 'config/jenga.php';
         if(file_exists($config_file)) include $config_file;
+
+        $this->route($this->map);
+
         include(SP . 'controllers/' . $this->module . '.php');
         $className  = ucfirst($this->module) . 'Controller'; 
 
