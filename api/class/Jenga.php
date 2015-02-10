@@ -90,6 +90,9 @@ class Jenga
 
         $this->route($this->routes);
 
+        session_name('sid');
+        session_start();
+
         include(SP . 'handlers/' . $this->module . '.php');
 
         $handler = new $this->handler();

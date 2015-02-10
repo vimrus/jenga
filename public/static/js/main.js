@@ -13,7 +13,7 @@ require.config({
     }
 });
 
-require(["project", "home", "login", "ready!", 'mmState'], function(project, home, login) {
+require(["mmRequest", "project", "home", "login", "ready!", 'mmState'], function(project, home, login) {
     avalon.define({
         $id: "root",
         header: "views/header.html"
@@ -24,6 +24,15 @@ require(["project", "home", "login", "ready!", 'mmState'], function(project, hom
         url: '/',
         views: {
             "": {templateUrl: 'views/home.html'},
+        },
+        onAfterLoad: function() {
+             avalon.getJSON('/api/members/me', {}).done(function(data, status){
+                 if(status == 401) {
+                     window.location.href = '/login';
+                 } else {
+                     home.name = data.username; 
+                 }
+             });
         }
     })
 

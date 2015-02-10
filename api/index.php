@@ -2,14 +2,16 @@
 include('bootstrap.php');
 
 $routes = array(
-    '/actions' => 'action/actionsHandler',
-    '/actions/:action_id' => 'action/actionHandler',
-    '/projects' => 'project/projectsHandler',
-    '/projects/:project_id' => 'project/projectHandler',
-    '/entries' => 'entry/entriesHandler',
-    '/entries/:entry_id' => 'entry/entryHandler',
-    '/tasks' => 'task/taskHandler',
-    '/tasks/:task_id' => 'task/taskHandler',
+    '/actions' => 'action/ActionsHandler',
+    '/actions/:action_id' => 'action/ActionHandler',
+    '/projects' => 'project/ProjectsHandler',
+    '/projects/:project_id' => 'project/ProjectHandler',
+    '/entries' => 'entry/EntriesHandler',
+    '/entries/:entry_id' => 'entry/EntryHandler',
+    '/tasks' => 'task/TaskHandler',
+    '/tasks/:task_id' => 'task/TaskHandler',
+    '/members' => 'member/MembersHandler',
+    '/members/:member_id' => 'member/MemberHandler',
 );
 
 $app = new Jenga($routes);

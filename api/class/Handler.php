@@ -21,6 +21,14 @@ class Handler
         die(trim(ob_get_clean()));
     }
 
+    public function json($code, $data)
+    {
+        header("Content-type: application/json");
+        header("HTTP/1.1 200 OK");
+        echo json_encode($data); 
+        exit;
+    }
+
 	public function loadModel($moduleName)
 	{
 		include(SP . 'models/' . strtolower($moduleName) . '.php');	
