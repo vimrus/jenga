@@ -5,21 +5,16 @@ class Jenga
 
     public $uri;
 
+    public $routes = array();
+
     public $params = array();
 
     public $paramNames = array();
 
-    public $map = array(
-        'GET' => array(), 
-        'POST' => array(), 
-        'PUT' => array(), 
-        'PATCH' => array(), 
-        'DELETE' => array()
-    );
-
-    public function __construct()
+    public function __construct($routes)
     {
         $this->method = strtolower($_SERVER['REQUEST_METHOD']);
+        $this->routes = $routes;
 
         if (!empty($_SERVER['PATH_INFO']))
         {
@@ -36,40 +31,10 @@ class Jenga
         if (is_string($config) && file_exists($config)) include $config;
     }
 
-    public function addRoute($method, $pattern, $handler)
-    {
-        $this->map[$method][$pattern] = $handler;
-    }
-
-    public function get($pattern, $handler)
-    {
-        $this->addRoute('GET', $pattern, $handler);
-    }
-
-    public function post($pattern, $handler)
-    {
-        $this->addRoute('POST', $pattern, $handler);
-    }
-
-    public function put($pattern, $handler)
-    {
-        $this->addRoute('PUT', $pattern, $handler);
-    }
-
-    public function patch($pattern, $handler)
-    {
-        $this->addRoute('PATCH', $pattern, $handler);
-    }
-
-    public function delete($pattern, $handler)
-    {
-        $this->addRoute('DELETE', $pattern, $handler);
-    }
-
-    public function route($map)
+    public function route($routes)
     {
         $method = strtoupper($_SERVER['REQUEST_METHOD']);
-        foreach($map[$method] as $route => $target)
+        foreach($routes as $route => $target)
         {
             // Construct a regex for route, from Slim framework.
             $patternAsRegex = preg_replace_callback(
@@ -85,7 +50,7 @@ class Jenga
             if (preg_match('#^' . $patternAsRegex . '$#', $this->uri, $paramValues)) 
             {
                 // module and action 
-                list($this->module, $this->action) = explode('/', $target);
+                list($this->module, $this->handler) = explode('/', $target);
 
                 // params
                 foreach ($this->paramNames as $name) 
@@ -106,8 +71,8 @@ class Jenga
             }
             else
             {
-                $this->module = 'error';
-                $this->action = 'notFound';
+                $this->module  = 'error';
+                $this->handler = 'notFound';
             }
         }
     }
@@ -123,13 +88,12 @@ class Jenga
         $config_file = SP . 'config/jenga.php';
         if(file_exists($config_file)) include $config_file;
 
-        $this->route($this->map);
+        $this->route($this->routes);
 
-        include(SP . 'controllers/' . $this->module . '.php');
-        $className  = ucfirst($this->module) . 'Controller'; 
+        include(SP . 'handlers/' . $this->module . '.php');
 
-        $controller = new $className($this->method, $this->module, $this->action);
-        call_user_func_array(array($controller, $this->action), $this->params);
+        $handler = new $this->handler();
+        call_user_func_array(array($handler, $this->method), $this->params);
     }
 
     private static function is_xhr_request()

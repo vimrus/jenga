@@ -1,17 +1,10 @@
 <?php
-class Controller
+class Handler
 {
     public $view = array();
     public $controller;
     public $action;
     public $method;
-
-    public function __construct($method, $controller, $action)
-    {
-        $this->method     = $method;
-        $this->controller = $controller;
-        $this->action     = $action;
-    }
 
     public function redirect($path, $code = 302) 
     {
