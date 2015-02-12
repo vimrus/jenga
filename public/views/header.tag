@@ -1,3 +1,4 @@
+<header>
 <div class="header">
   <div class="container clearfix">
     <h1><a class="header-logo" href="/">Jenga</a></h1>
@@ -15,3 +16,4 @@
     </div>
   </div>
 </div>
+</header>

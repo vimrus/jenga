@@ -1,3 +1,4 @@
+/*
 require.config({
     baseUrl: '/static/js',
     paths: {
@@ -58,3 +59,4 @@ require(["mmRequest", "project", "home", "login", "ready!", 'mmState'], function
 
     avalon.scan()
 })
+*/
