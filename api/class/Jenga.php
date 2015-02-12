@@ -83,15 +83,18 @@ class Jenga
         return '(?P<' . $m[1] . '>[^/]+)';
     }
 
+    public function connectDB()
+    {
+        include SP . 'class/rb.php';
+        R::setup('mysql:host=localhost;dbname=jenga', 'root','password');
+    }
+
     public function run()
     {
         $config_file = SP . 'config/jenga.php';
         if(file_exists($config_file)) include $config_file;
 
         $this->route($this->routes);
-
-        session_name('sid');
-        session_start();
 
         include(SP . 'handlers/' . $this->module . '.php');
 
