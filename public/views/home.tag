@@ -1,5 +1,5 @@
 <page>
   iii
-  <header/>
-  <footer/>
+  <header></header>
+  <footer></footer>
 </page>

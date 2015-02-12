@@ -12,16 +12,21 @@
   <link href="css/zui.lite.min.css" rel="stylesheet">
   <link href="css/main.css" rel="stylesheet">
 </head>
-<body ms-controller="root" class="ms-controller">
+<body>
+  <app />
   <script src="js/riot/riot+compiler.min.js"></script>
   <script src="js/riot/RiotControl.js"></script>
   <script src="js/main.js"></script>
-  <script src="js/views/home.js"></script>
-  <script src="js/views/login.js"></script>
-  <script src="js/views/project.js"></script>
+  <script src="views/header.js"></script>
+  <script src="views/home.js"></script>
+  <script src="views/login.js"></script>
+  <script src="views/project.js"></script>
+  <script src="views/jengastore.js"></script>
   <script>
+  var jengaStore = new JengaStore()
+  RiotControl.addStore(jengaStore)
   riot.mount('*')
-  riot.route(function(page,id) {
+  riot.route(function(page, id) {
       switch(page) {
           case 'project':
               RiotControl.trigger('route_project')
