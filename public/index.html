@@ -14,31 +14,26 @@
 <body>
   <div id="app"></div>
   <script src="js/riot/riot.js"></script>
-  <script src="views/app.js"></script>
+  <script src="js/jquery/jquery-2.1.1.js"></script>
   <script src="views/header.js"></script>
   <script src="views/home.js"></script>
   <script src="views/login.js"></script>
   <script src="views/project.js"></script>
   <script type='text/javascript'>
     riot.mount('*')
-    riot.route(function(view, id, action) {
+
+    riot.route.exec(function(view, id, action){
+      return start(view, id, action)
+    })
+    riot.route(function(view, id, action){
+      return start(view, id, action)
+    })
+    function start(view, id, action) {
       var app = document.getElementById('app')
-      switch(view)
-      {
-        case 'project':
-          riot.mountTo(app, 'project', {  title: 'Project' })
-          break
-        case 'home':
-          riot.mountTo(app, 'home', {  title: 'Home' })
-          break
-        case 'login':
-          riot.mountTo(app, 'login', {  title: 'Login' })
-          break
-        default:
-          riot.mountTo(app, 'home', {  title: 'Home' })
-      }
-    });
-    riot.route(location.hash || 'home')
+        app.innerHTML = '';
+        riot.mountTo(app, view)
+    }
+    if (!location.hash) riot.route('home');
   </script>
 </body>
 </html>
