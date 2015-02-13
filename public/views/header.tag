@@ -8,11 +8,11 @@
       </form>
     </div>
     <ul class="nav-list left">
-      <li class="nav-item"><a href="/dashboard">工作台</a></li>
-      <li class="nav-item"><a href="/calendar">日历</a></li>
+      <li class="nav-item"><a href="/#dashboard">工作台</a></li>
+      <li class="nav-item"><a href="/#calendar">日历</a></li>
     </ul>
     <div class="header-actions">
-      <a href="/">{{user.name}}</a></li>
+      <a href="/">{user.name}</a></li>
     </div>
   </div>
 </div>

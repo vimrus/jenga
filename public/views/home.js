@@ -1,3 +1,5 @@
-riot.tag('page', 'iii <header></header> <footer></footer>', function(opts) {
+riot.tag('home', '<header></header> <footer></footer>', function(opts) {
+  this.on('mount', function(){
+  })
 
 });

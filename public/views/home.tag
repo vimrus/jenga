@@ -1,5 +1,6 @@
-<page>
-  iii
+<home>
   <header></header>
   <footer></footer>
-</page>
+  this.on('mount', function(){
+  })
+</home>
