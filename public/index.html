@@ -12,28 +12,11 @@
   <link href="css/main.css" rel="stylesheet">
 </head>
 <body>
-  <div id="app"></div>
-  <script src="js/riot/riot.js"></script>
-  <script src="js/jquery/jquery-2.1.1.js"></script>
-  <script src="views/header.js"></script>
-  <script src="views/home.js"></script>
-  <script src="views/login.js"></script>
-  <script src="views/project.js"></script>
-  <script type='text/javascript'>
-    riot.mount('*')
-
-    riot.route.exec(function(view, id, action){
-      return start(view, id, action)
-    })
-    riot.route(function(view, id, action){
-      return start(view, id, action)
-    })
-    function start(view, id, action) {
-      var app = document.getElementById('app')
-        app.innerHTML = '';
-        riot.mountTo(app, view)
-    }
-    if (!location.hash) riot.route('home');
-  </script>
 </body>
+<script src="js/react/react-with-addons.js"></script>
+<script src="js/react/react-router.min.js"></script>
+<script src="js/build/header.js"></script>
+<script src="js/build/dashboard.js"></script>
+<script src="js/build/login.js"></script>
+<script src="js/build/app.js"></script>
 </html>
