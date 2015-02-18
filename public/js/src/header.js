@@ -9,7 +9,6 @@ var Header = React.createClass({
     },
 
     componentDidMount: function() {
-        /*
         client.members.read('me').done(function(data){
             if (this.isMounted()) {
                 this.setState({
@@ -18,10 +17,9 @@ var Header = React.createClass({
             }
         }).fail(function(jqXHR) {
             if(jqXHR.status == 401) {
-                //transition.redirect('/login');
+                transition.redirect('/login');
             } 
         })
-        */
     },
     render: function () {
         return (

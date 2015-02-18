@@ -1,10 +1,6 @@
 <?php
 class TokensHandler extends Handler 
 {
-    public function get()
-    {
-    }
-
     public function post()
     {
         $account  = $_POST['account'];
@@ -12,7 +8,7 @@ class TokensHandler extends Handler
         $member = $this->loadModel('member')->authorize($account, $password);
         if($member)
         {
-            $token = $this->loadModel('token')->createToken($account, $password);
+            $token = $this->loadModel('token')->createToken($member['id']);
             return $this->json(200, $token);
         }
         return $this->json(200, '');

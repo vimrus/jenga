@@ -22,7 +22,7 @@ var auth = {
         }
         pretendRequest(account, password, function (res) {
             if (res.authenticated) {
-                localStorage.token = res.token;
+                client.opts.token = localStorage.token = res.token;
                 if (cb) cb(true);
                 this.onChange(true);
             } else {
@@ -111,5 +111,15 @@ var Login = React.createClass({
               <RouteHandler/>
             </div>
             );
+    }
+});
+
+var Logout = React.createClass({
+    componentDidMount: function () {
+        auth.logout();
+    },
+
+    render: function () {
+        return <p>You are now logged out</p>;
     }
 });
