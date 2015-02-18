@@ -12,6 +12,7 @@ $routes = array(
     '/tasks/:task_id' => 'task/TaskHandler',
     '/members' => 'member/MembersHandler',
     '/members/:member_id' => 'member/MemberHandler',
+    '/tokens' => 'token/TokensHandler',
 );
 
 $app = new Jenga($routes);

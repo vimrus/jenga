@@ -1,22 +1,111 @@
 var Router =  ReactRouter;
 var RouteHandler = Router.RouteHandler;
 
+var Authentication = {
+    statics: {
+        willTransitionTo: function (transition) {
+            if (!auth.loggedIn()) {
+                Login.attemptedTransition = transition;
+                transition.redirect('/login');
+            }
+        }
+    }
+};
+
+var auth = {
+    login: function (account, password, cb) {
+        cb = arguments[arguments.length - 1];
+        if (localStorage.token) {
+            if (cb) cb(true);
+            this.onChange(true);
+            return;
+        }
+        pretendRequest(account, password, function (res) {
+            if (res.authenticated) {
+                localStorage.token = res.token;
+                if (cb) cb(true);
+                this.onChange(true);
+            } else {
+                if (cb) cb(false);
+                this.onChange(false);
+            }
+        }.bind(this));
+    },
+
+    getToken: function () {
+        return localStorage.token;
+    },
+
+    logout: function (cb) {
+        delete localStorage.token;
+        if (cb) cb();
+        this.onChange(false);
+    },
+
+    loggedIn: function () {
+        return !!localStorage.token;
+    },
+
+    onChange: function () {}
+};
+
+function pretendRequest(account, password, cb) {
+    setTimeout(function () {
+        client.tokens.create({account: account, password: password}).done(function(data){
+            cb({
+                authenticated: true,
+                token: data,
+            });
+        }).fail(function(){
+            cb({authenticated: false});
+        })
+    }, 0);
+}
+
 var Login = React.createClass({
+    mixins: [ Router.Navigation ],
+    statics: {
+        attemptedTransition: null
+    },
+    getInitialState: function () {
+        return {
+            error: false
+        };
+    },
+    handleSubmit: function (event) {
+        event.preventDefault();
+        var account  = this.refs.account.getDOMNode().value;
+        var password = this.refs.password.getDOMNode().value;
+        auth.login(account, password, function (loggedIn) {
+            if (!loggedIn)
+            return this.setState({ error: true });
+
+        if (Login.attemptedTransition) {
+            var transition = Login.attemptedTransition;
+            Login.attemptedTransition = null;
+            transition.retry();
+        } else {
+            this.replaceWith('/');
+        }
+        }.bind(this));
+    },
     render: function () {
+        var errors = this.state.error ? <p>Bad login information</p> : '';
         return (
             <div>
-              <div class="login-box">
+              <div>
                 <h1>登录</h1>
-                <form id="login-form" class="form">
-                  <div class="form-group"> 
-                    <label class="control-label" for="mail">邮箱或用户名</label>
-                    <input type="text" class="form-control" id="mail" name="mail" />
+                <form onSubmit={this.handleSubmit}>
+                  <div> 
+                    <label>邮箱或用户名</label>
+                    <input type="text" ref="account" name="account" />
                   </div>
-                  <div class="form-group"> 
-                    <label class="control-label" for="password">密码</label>
-                    <input type="password" class="form-control" id="password" name="password" />
+                  <div> 
+                    <label>密码</label>
+                    <input type="password" ref="password" name="password" />
                   </div>
-                  <button id="loginBtn" class="btn btn-success">登录</button>
+                  <button id="login-button">登录</button>
+                  {errors}
                 </form>
               </div>
               <RouteHandler/>

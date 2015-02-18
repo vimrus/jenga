@@ -5,6 +5,10 @@ var Link = Router.Link;
 var Route = Router.Route;
 var RouteHandler = Router.RouteHandler;
 
+var client = new $.RestClient('/api/');
+client.add('members');
+client.add('tokens');
+
 var App = React.createClass({
     render: function () {
         return (
@@ -19,6 +23,7 @@ var App = React.createClass({
 var routes = (
         <Route name="app" path="/" handler={App}>
         <Route name="login" handler={Login}/>
+        <Route name="logout" handler={Logout}/>
         <DefaultRoute handler={Dashboard}/>
         </Route>
         );

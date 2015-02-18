@@ -87,7 +87,8 @@ class Handler
 
 	public function loadModel($moduleName)
 	{
-		include(SP . 'models/' . strtolower($moduleName) . '.php');	
-		return new $moduleName();
+		include(SP . 'models/' . strtolower($moduleName) . '.php');
+        $modelName = ucfirst($moduleName) . 'Model';
+		return new $modelName();
 	}
 }

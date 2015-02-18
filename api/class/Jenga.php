@@ -18,11 +18,11 @@ class Jenga
 
         if (!empty($_SERVER['PATH_INFO']))
         {
-            $this->uri = $_SERVER['PATH_INFO'];
+            $this->uri = rtrim($_SERVER['PATH_INFO'], '/');
         }
         else 
         {
-            $this->uri = (strpos($_SERVER['REQUEST_URI'], '?') > 0) ? strstr($_SERVER['REQUEST_URI'], '?', true) : $_SERVER['REQUEST_URI'];
+            $this->uri = rtrim((strpos($_SERVER['REQUEST_URI'], '?') > 0 ? strstr($_SERVER['REQUEST_URI'], '?', true) : $_SERVER['REQUEST_URI']), '/');
         }
     }
 
@@ -67,26 +67,17 @@ class Jenga
                         }
                     }
                 }
-                break;
-            }
-            else
-            {
-                $this->module  = 'error';
-                $this->handler = 'notFound';
+                return;
             }
         }
+        $this->module  = 'error';
+        $this->handler = 'NotFoundHandler';
     }
 
     protected function matchesCallback($m)
     {
         $this->paramNames[] = $m[1];
         return '(?P<' . $m[1] . '>[^/]+)';
-    }
-
-    public function connectDB()
-    {
-        include SP . 'class/rb.php';
-        R::setup('mysql:host=localhost;dbname=jenga', 'root','password');
     }
 
     public function run()

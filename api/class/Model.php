@@ -1,7 +1,10 @@
 <?php
-class Model
+class Model 
 {
-	public function __construct()
-	{
-	}
+    public $db;
+
+    public function __construct($data = array())
+    {
+        $this->db =  new DB();  
+    }
 }
