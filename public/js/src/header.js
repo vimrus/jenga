@@ -16,7 +16,7 @@ var Header = React.createClass({
                     username: data.name,
                 });
             }
-        }).fail(function(jqXHR) {
+        }.bind(this)).fail(function(jqXHR) {
             if(jqXHR.status == 401) {
                 transition.redirect('/login');
             } 
@@ -25,9 +25,17 @@ var Header = React.createClass({
     render: function () {
         return (
             <header>
-            <ul>
-            <li><Link to="app">Dashboard</Link></li>
-            </ul>
+            <div>
+              <h1><Link to="app">Jenga</Link></h1>
+              <form>
+                <input id="searchBox" name="q" type="text" />
+              </form>
+              <ul>
+              </ul>
+              <ul>
+               <li><Link to="dashboard">{this.state.username}</Link></li>
+              </ul>
+            </div>
             </header>
             );
     }

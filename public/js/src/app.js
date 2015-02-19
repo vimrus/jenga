@@ -24,7 +24,7 @@ var routes = (
         <Route name="app" path="/" handler={App}>
         <Route name="login" handler={Login}/>
         <Route name="logout" handler={Logout}/>
-        <DefaultRoute handler={Dashboard}/>
+        <DefaultRoute name="dashboard" handler={Dashboard}/>
         </Route>
         );
 
