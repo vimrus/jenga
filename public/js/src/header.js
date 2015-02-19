@@ -2,6 +2,7 @@ var Router =  ReactRouter;
 var RouteHandler = Router.RouteHandler;
 
 var Header = React.createClass({
+    mixins: [ Authentication ],
     getInitialState: function() {
         return {
             username: '',

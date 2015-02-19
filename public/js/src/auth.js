@@ -116,7 +116,9 @@ var Login = React.createClass({
 
 var Logout = React.createClass({
     componentDidMount: function () {
-        auth.logout();
+        auth.logout(function(){
+            this.replaceWith('/');
+        }.bind(this));
     },
 
     render: function () {

@@ -5,7 +5,7 @@ var Link = Router.Link;
 var Route = Router.Route;
 var RouteHandler = Router.RouteHandler;
 
-var client = new $.RestClient('/api/');
+var client = new $.RestClient('/api/', { token: localStorage.token});
 client.add('members');
 client.add('tokens');
 

@@ -24,4 +24,10 @@ class TokenModel extends Model
         $this->db->bind('idMember', $idMember);
         return $this->db->row("SELECT * FROM token WHERE idMember = :idMember");
     }
+
+    public function getMemberByToken($token)
+    {
+        $this->db->bind('token', $token);
+        return $this->db->single("SELECT idMember FROM token WHERE token = :token");
+    }
 }
