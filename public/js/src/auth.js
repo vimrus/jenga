@@ -98,7 +98,7 @@ var Login = React.createClass({
         var errors = this.state.error ? <p>Bad login information</p> : '';
         return (
             <div>
-              <div>
+              <div className="login-box">
                 <h1>登录</h1>
                 <form onSubmit={this.handleSubmit}>
                   <div> 

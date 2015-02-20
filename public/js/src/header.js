@@ -24,19 +24,21 @@ var Header = React.createClass({
     },
     render: function () {
         return (
-            <header>
-            <div>
-              <h1><Link to="app">Jenga</Link></h1>
-              <form>
-                <input id="searchBox" name="q" type="text" />
-              </form>
-              <ul>
-              </ul>
-              <ul>
-               <li><Link to="dashboard">{this.state.username}</Link></li>
-              </ul>
+            <div className="header">
+              <div className="container">
+                <h1 className="logo"><Link to="app">Jenga</Link></h1>
+                <form className="header-search">
+                  <input id="search-box" name="q" type="text" />
+                </form>
+                <ul className="header-nav left">
+                </ul>
+                <ul className="header-nav right">
+                 <li><Link to="dashboard">{this.state.username}</Link></li>
+                 <li><Link to="new">New</Link></li>
+                 <li><Link to="logout">Logout</Link></li>
+                </ul>
+              </div>
             </div>
-            </header>
             );
     }
 });
