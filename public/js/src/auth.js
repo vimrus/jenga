@@ -65,6 +65,12 @@ function pretendRequest(account, password, cb) {
 var Login = React.createClass({
     mixins: [ Router.Navigation ],
     statics: {
+        willTransitionTo: function (transition) {
+            if (auth.loggedIn()) {
+                Login.attemptedTransition = transition;
+                transition.redirect('/');
+            }
+        },
         attemptedTransition: null
     },
     getInitialState: function () {
@@ -77,16 +83,15 @@ var Login = React.createClass({
         var account  = this.refs.account.getDOMNode().value;
         var password = this.refs.password.getDOMNode().value;
         auth.login(account, password, function (loggedIn) {
-            if (!loggedIn)
-            return this.setState({ error: true });
+            if (!loggedIn) return this.setState({ error: true });
 
-        if (Login.attemptedTransition) {
-            var transition = Login.attemptedTransition;
-            Login.attemptedTransition = null;
-            transition.retry();
-        } else {
-            this.replaceWith('/');
-        }
+            if (Login.attemptedTransition) {
+                var transition = Login.attemptedTransition;
+                Login.attemptedTransition = null;
+                transition.retry();
+            } else {
+                this.replaceWith('/');
+            }
         }.bind(this));
     },
     render: function () {
@@ -115,12 +120,13 @@ var Login = React.createClass({
 });
 
 var Logout = React.createClass({
-    componentDidMount: function () {
-        auth.logout(function(){
-            this.replaceWith('/');
-        }.bind(this));
+    statics: {
+        willTransitionTo: function (transition) {
+            auth.logout(function(){
+                transition.redirect('/');
+            });
+        }
     },
-
     render: function () {
         return <p>You are now logged out</p>;
     }
