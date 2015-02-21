@@ -1,4 +1,4 @@
-var Router =  ReactRouter;
+var Router = ReactRouter;
 var RouteHandler = Router.RouteHandler;
 
 var New = React.createClass({
@@ -13,7 +13,7 @@ var New = React.createClass({
         var name = this.refs.name.getDOMNode().value;
         var desc = this.refs.desc.getDOMNode().value;
         client.projects.create({name: name, desc: desc}).done(function(data){
-            this.replaceWith('project/' + data)
+            this.transitionTo('dashboard')
         }.bind(this));
     },
 

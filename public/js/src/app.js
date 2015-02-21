@@ -25,7 +25,11 @@ var routes = (
         <Route name="app" path="/" handler={App}>
         <Route name="login" handler={Login}/>
         <Route name="logout" handler={Logout}/>
+        <Route name="project" path="/project/:projectId" handler={Project}/>
         <Route name="new" handler={New}/>
+        <Route name="task" path="/project/:projectId/tasks" handler={Task}/>
+        <Route name="doc" handler={Doc}/>
+        <Route name="topic" handler={Topic}/>
         <DefaultRoute name="dashboard" handler={Dashboard}/>
         </Route>
         );
