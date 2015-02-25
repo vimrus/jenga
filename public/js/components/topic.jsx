@@ -1,5 +1,6 @@
 var Router =  ReactRouter;
 var RouteHandler = Router.RouteHandler;
+var Auth = require('./auth.jsx');
 
 var ProjectHeader = React.createClass({
     componentDidMount: function() {
@@ -33,8 +34,8 @@ var ProjectHeader = React.createClass({
     }
 });
 
-var Doc = React.createClass({
-    mixins: [ Authentication ],
+var Topic = React.createClass({
+    mixins: [ Auth.Authentication ],
 
     render: function () {
         return (
@@ -48,3 +49,4 @@ var Doc = React.createClass({
             );
     }
 });
+module.exports = Topic;

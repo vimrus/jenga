@@ -131,3 +131,8 @@ var Logout = React.createClass({
         return <p>You are now logged out</p>;
     }
 });
+module.exports = {
+    Authentication: Authentication,
+    Login: Login,
+    Logout: Logout
+};

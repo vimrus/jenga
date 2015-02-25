@@ -1,5 +1,6 @@
 var Router =  ReactRouter;
 var RouteHandler = Router.RouteHandler;
+var Auth = require('./auth.jsx');
 
 var MainHeader = React.createClass({
 
@@ -17,7 +18,7 @@ var MainHeader = React.createClass({
 });
 
 var Dashboard = React.createClass({
-    mixins: [ Authentication ],
+    mixins: [ Auth.Authentication ],
 
     render: function () {
         return (
@@ -31,3 +32,4 @@ var Dashboard = React.createClass({
             );
     }
 });
+module.exports = Dashboard;

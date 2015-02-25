@@ -1,8 +1,9 @@
 var Router = ReactRouter;
 var RouteHandler = Router.RouteHandler;
+var Auth = require('./auth.jsx');
 
 var New = React.createClass({
-    mixins: [ Authentication ],
+    mixins: [ Auth.Authentication ],
     getInitialState: function () {
         return {
             error: false
@@ -43,3 +44,4 @@ var New = React.createClass({
             );
     }
 });
+module.exports = New;

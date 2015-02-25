@@ -1,8 +1,9 @@
 var Router =  ReactRouter;
 var RouteHandler = Router.RouteHandler;
+var Auth = require('./auth.jsx');
 
 var Header = React.createClass({
-    mixins: [ Authentication ],
+    mixins: [ Auth.Authentication ],
     getInitialState: function() {
         return {
             username: '',
@@ -42,3 +43,4 @@ var Header = React.createClass({
             );
     }
 });
+module.exports = Header;
