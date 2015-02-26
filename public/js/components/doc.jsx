@@ -1,5 +1,6 @@
 var Router =  ReactRouter;
 var RouteHandler = Router.RouteHandler;
+var Link = Router.Link;
 var Auth = require('./auth.jsx');
 
 var ProjectHeader = React.createClass({

@@ -8,11 +8,6 @@ var actions = require("./actions.jsx"),
 
 var router = Router.create({routes: routes});
 
-var client = new $.RestClient('/api/', {token: localStorage.token});
-client.add('members');
-client.add('tokens');
-client.add('projects');
-
 var stores = {
   project: new ProjectStore(),
 };

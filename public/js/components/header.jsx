@@ -1,15 +1,19 @@
-var Router =  ReactRouter;
-var RouteHandler = Router.RouteHandler;
-var Auth = require('./auth.jsx');
+var React = require("react"),
+    Router =  ReactRouter,
+    RouteHandler = Router.RouteHandler,
+    Link = Router.Link,
+    Auth = require('./auth.jsx'),
+    Fluxxor = require('fluxxor');
 
 var Header = React.createClass({
-    mixins: [ Auth.Authentication ],
-    getInitialState: function() {
+    mixins: [ Auth.Authentication, Fluxxor.FluxMixin(React), Fluxxor.StoreWatchMixin("member")],
+    getStateFromFlux: function() {
         return {
-            username: '',
-        };
+            me: this.getFlux().store("member").getMember('me'),
+        };  
     },
 
+    /*
     componentDidMount: function() {
         client.members.read('me').done(function(data){
             if (this.isMounted()) {
@@ -23,6 +27,7 @@ var Header = React.createClass({
             } 
         })
     },
+    */
     render: function () {
         return (
             <div className="header">
@@ -34,7 +39,7 @@ var Header = React.createClass({
                 <ul className="header-nav left">
                 </ul>
                 <ul className="header-nav right">
-                 <li><Link to="dashboard">{this.state.username}</Link></li>
+                 <li><Link to="dashboard">{this.state.me.name}</Link></li>
                  <li><Link to="new">New</Link></li>
                  <li><Link to="logout">Logout</Link></li>
                 </ul>

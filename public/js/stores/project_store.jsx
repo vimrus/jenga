@@ -6,8 +6,8 @@ var NOT_FOUND_TOKEN = {};
 
 var ProjectStore = Fluxxor.createStore({
   initialize: function() {
-    this.recipeId = 0;
-    this.recipes = {};
+    this.projectId  = 0;
+    this.projects  = {};
 
     this.bindActions(
       actions.constants.PROJECT.ADD, this.handleAddProject,
@@ -23,45 +23,41 @@ var ProjectStore = Fluxxor.createStore({
   },
 
   getProject: function(id) {
-    return this.recipes[id] || NOT_FOUND_TOKEN;
+    return this.projects[id] || NOT_FOUND_TOKEN;
   },
 
-  handleAddRecipe: function(payload) {
-    var recipe = {
+  handleAddProject: function(payload) {
+    var project = {
       name: payload.name,
-      description: payload.description,
-      ingredients: payload.ingredients,
-      directions: payload.directions
+      description: payload.desc,
     };
-    recipe.id = ++this.recipeId;
-    this.recipes[recipe.id] = recipe;
+    project.id = ++this.projectId;
+    this.projects[project.id] = project;
 
     // Normally an API call to save a new item would be asynchronous,
     // but we're faking a back-end store here, so we'll fake the
     // asynchrony too.
     setTimeout(function() {
       if (!payload.preventTransition) {
-        this.flux.actions.routes.transition("recipe", {id: recipe.id});
+        this.flux.actions.routes.transition("project", {id: project.id});
       }
     }.bind(this));
 
     this.emit("change");
   },
 
-  handleEditRecipe: function(payload) {
-    this.recipes[payload.id] = {
+  handleEditProject: function(payload) {
+    this.projects[payload.id] = {
       id: payload.id,
       name: payload.name,
-      description: payload.description,
-      ingredients: payload.ingredients,
-      directions: payload.directions
+      desc: payload.desc,
     };
 
     this.emit("change");
   },
 
-  handleRemoveRecipe: function(id) {
-    delete this.recipes[id];
+  handleRemoveProject: function(id) {
+    delete this.projects[id];
     this.emit("change");
   }
 });

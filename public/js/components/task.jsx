@@ -1,6 +1,8 @@
 var Router =  ReactRouter;
 var RouteHandler = Router.RouteHandler;
-var Auth = require('./auth.jsx');
+var Link   = Router.Link;
+var Auth   = require('./auth.jsx');
+var Header = require('./header.jsx');
 
 var ProjectHeader = React.createClass({
     componentDidMount: function() {
