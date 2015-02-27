@@ -4,7 +4,7 @@ var actions = require("../actions.jsx");
 
 var NOT_FOUND_TOKEN = {};
 
-var ProjectStore = Fluxxor.createStore({
+var MemberStore = Fluxxor.createStore({
   initialize: function() {
     this.projectId  = 0;
     this.projects  = {};
@@ -22,7 +22,7 @@ var ProjectStore = Fluxxor.createStore({
     }.bind(this));
   },
 
-  getProject: function(id) {
+  getMember: function(id) {
     return this.projects[id] || NOT_FOUND_TOKEN;
   },
 
@@ -62,6 +62,6 @@ var ProjectStore = Fluxxor.createStore({
   }
 });
 
-ProjectStore.NOT_FOUND_TOKEN = NOT_FOUND_TOKEN;
+MemberStore.NOT_FOUND_TOKEN = NOT_FOUND_TOKEN;
 
-module.exports = ProjectStore;
+module.exports = MemberStore;

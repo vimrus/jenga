@@ -1,8 +1,8 @@
-var React = require("react"),
+var React  = require("react"),
     Router =  ReactRouter,
     RouteHandler = Router.RouteHandler,
-    Link = Router.Link,
-    Auth = require('./auth.jsx'),
+    Link    = Router.Link,
+    Auth    = require('./auth.jsx'),
     Fluxxor = require('fluxxor');
 
 var Header = React.createClass({
@@ -10,7 +10,7 @@ var Header = React.createClass({
     getStateFromFlux: function() {
         return {
             me: this.getFlux().store("member").getMember('me'),
-        };  
+        };
     },
 
     /*

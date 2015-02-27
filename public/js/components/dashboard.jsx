@@ -1,6 +1,7 @@
-var Router =  ReactRouter;
+var Router = ReactRouter;
 var RouteHandler = Router.RouteHandler;
 var Auth = require('./auth.jsx');
+var Fluxxor = require('fluxxor');
 var Header = require('./header.jsx');
 
 var MainHeader = React.createClass({
@@ -18,7 +19,12 @@ var MainHeader = React.createClass({
 });
 
 var Dashboard = React.createClass({
-    mixins: [ Auth.Authentication ],
+    mixins: [ Auth.Authentication, Fluxxor.FluxMixin(React), Fluxxor.StoreWatchMixin("member")],
+    getStateFromFlux: function() {
+        return {
+            me: this.getFlux().store("member").getMember('me'),
+        };
+    },
 
     render: function () {
         return (

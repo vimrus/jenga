@@ -2,29 +2,15 @@ var Router =  ReactRouter;
 var RouteHandler = Router.RouteHandler;
 var Link = Router.Link;
 var Auth = require('./auth.jsx');
+var Fluxxor = require('fluxxor');
 var Header = require('./header.jsx');
 
 var ProjectHeader = React.createClass({
-    getInitialState: function() {
+    mixins: [ Fluxxor.FluxMixin(React), Fluxxor.StoreWatchMixin("project")],
+    getStateFromFlux: function() {
         return {
-            project: {
-                id: 0,
-            },
+            project: this.getFlux().store("project").getProject(),
         };
-    },
-    mixins: [Router.State],
-    componentDidMount: function() {
-        client.projects.read(projectId).done(function(data){
-            if (this.isMounted()) {
-                this.setState({
-                    project: data
-                });
-            }
-        }.bind(this)).fail(function(jqXHR) {
-            if(jqXHR.status == 401) {
-                transition.redirect('/login');
-            } 
-        })
     },
 
     render: function () {
@@ -44,7 +30,7 @@ var ProjectHeader = React.createClass({
 });
 
 var Project = React.createClass({
-    mixins: [ Auth.Authentication ],
+    mixins: [ Auth.Authentication, Fluxxor.FluxMixin(React), Fluxxor.StoreWatchMixin("member")],
 
     render: function () {
         return (
@@ -58,4 +44,5 @@ var Project = React.createClass({
             );
     }
 });
+
 module.exports = Project;

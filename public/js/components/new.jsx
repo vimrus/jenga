@@ -2,22 +2,24 @@ var Router = ReactRouter;
 var RouteHandler = Router.RouteHandler;
 var Link = Router.Link;
 var Auth = require('./auth.jsx');
+var Fluxxor = require('fluxxor');
 var Header = require('./header.jsx');
 
 var New = React.createClass({
-    mixins: [ Auth.Authentication ],
-    getInitialState: function () {
+    mixins: [ Auth.Authentication, Fluxxor.FluxMixin(React), Fluxxor.StoreWatchMixin("project")],
+    getStateFromFlux: function() {
         return {
-            error: false
+            error: this.getFlux().store("project").error,
         };
     },
     handleSubmit: function (event) {
         event.preventDefault();
         var name = this.refs.name.getDOMNode().value;
         var desc = this.refs.desc.getDOMNode().value;
-        client.projects.create({name: name, desc: desc}).done(function(data){
-            this.transitionTo('dashboard')
-        }.bind(this));
+        this.getFlux().actions.project.add({
+            name: name,
+            desc: desc,
+        });
     },
 
     render: function () {

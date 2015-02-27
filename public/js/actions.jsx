@@ -1,20 +1,20 @@
 var c = {
-  PROJECT: {
-    ADD: "PROJECT:ADD",
-    EDIT: "PROJECT:EDIT",
-    REMOVE: "PROJECT:REMOVE",
-  },
+    PROJECT: {
+        ADD: "PROJECT:ADD",
+        EDIT: "PROJECT:EDIT",
+        REMOVE: "PROJECT:REMOVE",
+    },
+    ROUTE: {
+        TRANSITION: "ROUTE:TRANSITION"
+    }
 };
 
 var methods = {
   project: {
-    add: function(name, desc, ingredients, directions, preventTransition) {
-      this.dispatch(c.RECIPE.ADD, {
+    add: function(name, desc) {
+      this.dispatch(c.PROJECT.ADD, {
         name: name,
-        description: desc,
-        ingredients: ingredients,
-        directions: directions,
-        preventTransition: preventTransition
+        desc: desc,
       });
     },
 
@@ -32,6 +32,11 @@ var methods = {
       this.dispatch(c.RECIPE.REMOVE, id);
     }
   },
+  routes: {
+      transition: function(path, params) {
+          this.dispatch(c.ROUTE.TRANSITION, {path: path, params: params});
+      }   
+  }
 };
 
 module.exports = {
