@@ -6,6 +6,10 @@ var c = {
     },
     ROUTE: {
         TRANSITION: "ROUTE:TRANSITION"
+    },
+    AUTH: {
+        LOGIN: "AUTH:LOGIN",
+        LOGOUT: "AUTH:LOGOUT",
     }
 };
 
@@ -36,7 +40,19 @@ var methods = {
       transition: function(path, params) {
           this.dispatch(c.ROUTE.TRANSITION, {path: path, params: params});
       }   
-  }
+  },
+  auth: {
+    login: function(account, password) {
+      this.dispatch(c.AUTH.LOGIN, {
+        account: account,
+        password: password,
+      });
+    },
+
+    logout: function() {
+      this.dispatch(c.AUTH.LOGOUT);
+    }
+  },
 };
 
 module.exports = {

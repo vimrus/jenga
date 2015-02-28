@@ -2,14 +2,74 @@ var Router =  ReactRouter;
 var RouteHandler = Router.RouteHandler;
 
 var Authentication = {
+    mixins: [ Fluxxor.FluxMixin(React), Fluxxor.StoreWatchMixin("auth")],
     statics: {
         willTransitionTo: function (transition) {
-            if (!auth.loggedIn()) {
-                Login.attemptedTransition = transition;
+            if(!this.getFlux().store("auth").loggedIn()) {
                 transition.redirect('/login');
             }
         }
     }
+};
+
+var Login = React.createClass({
+    mixins: [ Fluxxor.FluxMixin(React), Fluxxor.StoreWatchMixin("auth")],
+    statics: {
+        willTransitionTo: function (transition) {
+            if(this.getFlux().store("auth").loggedIn()) {
+                transition.redirect('/');
+            }
+        },
+    },
+    handleSubmit: function (event) {
+        event.preventDefault();
+        var account  = this.refs.account.getDOMNode().value;
+        var password = this.refs.password.getDOMNode().value;
+        this.getFlux().actions.auth.login({
+            account: account,
+            password: password,
+        });
+    },
+    render: function () {
+        var errors = this.state.error ? <p>Bad login information</p> : '';
+        return (
+            <div>
+              <div className="login-box">
+                <h1>登录</h1>
+                <form onSubmit={this.handleSubmit}>
+                  <div> 
+                    <label>邮箱或用户名</label>
+                    <input type="text" ref="account" name="account" />
+                  </div>
+                  <div> 
+                    <label>密码</label>
+                    <input type="password" ref="password" name="password" />
+                  </div>
+                  <button id="login-button">登录</button>
+                  {errors}
+                </form>
+              </div>
+              <RouteHandler/>
+            </div>
+            );
+    }
+});
+
+var Logout = React.createClass({
+    statics: {
+        willTransitionTo: function (transition) {
+            this.getFlux().actions.auth.logout();
+        },
+    },
+    render: function () {
+        return <p>Logged out</p>;
+    }
+});
+
+module.exports = {
+    Authentication: Authentication,
+    Login: Login,
+    Logout: Logout
 };
 
 var auth = {
@@ -61,78 +121,3 @@ function pretendRequest(account, password, cb) {
         })
     }, 0);
 }
-
-var Login = React.createClass({
-    mixins: [ Router.Navigation ],
-    statics: {
-        willTransitionTo: function (transition) {
-            if (auth.loggedIn()) {
-                Login.attemptedTransition = transition;
-                transition.redirect('/');
-            }
-        },
-        attemptedTransition: null
-    },
-    getInitialState: function () {
-        return {
-            error: false
-        };
-    },
-    handleSubmit: function (event) {
-        event.preventDefault();
-        var account  = this.refs.account.getDOMNode().value;
-        var password = this.refs.password.getDOMNode().value;
-        auth.login(account, password, function (loggedIn) {
-            if (!loggedIn) return this.setState({ error: true });
-
-            if (Login.attemptedTransition) {
-                var transition = Login.attemptedTransition;
-                Login.attemptedTransition = null;
-                transition.retry();
-            } else {
-                this.replaceWith('/');
-            }
-        }.bind(this));
-    },
-    render: function () {
-        var errors = this.state.error ? <p>Bad login information</p> : '';
-        return (
-            <div>
-              <div className="login-box">
-                <h1>登录</h1>
-                <form onSubmit={this.handleSubmit}>
-                  <div> 
-                    <label>邮箱或用户名</label>
-                    <input type="text" ref="account" name="account" />
-                  </div>
-                  <div> 
-                    <label>密码</label>
-                    <input type="password" ref="password" name="password" />
-                  </div>
-                  <button id="login-button">登录</button>
-                  {errors}
-                </form>
-              </div>
-              <RouteHandler/>
-            </div>
-            );
-    }
-});
-
-var Logout = React.createClass({
-    statics: {
-        willTransitionTo: function (transition) {
-            auth.logout(function(){
-                transition.redirect('/');
-            });
-        }
-    },
-    render: function () {
-        return <p>You are now logged out</p>;
-    }
-});
-module.exports = {
-    Authentication: Authentication,
-    Login: Login,
-    Logout: Logout
-};
