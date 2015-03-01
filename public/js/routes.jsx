@@ -9,7 +9,6 @@ var App       = require("./components/app.jsx"),
     Dashboard = require("./components/dashboard.jsx"),
     Project   = require("./components/project.jsx"),
     New       = require("./components/new.jsx"),
-    Task      = require("./components/task.jsx"),
     Doc       = require("./components/doc.jsx"),
     Topic     = require("./components/topic.jsx");
 
@@ -19,7 +18,6 @@ var routes = (
         <Route name="logout" handler={Auth.Logout}/>
         <Route name="project" path="/project/:projectId" handler={Project}/>
         <Route name="new" handler={New}/>
-        <Route name="task" path="/project/:projectId/tasks" handler={Task}/>
         <Route name="doc" handler={Doc}/>
         <Route name="topic" handler={Topic}/>
         <DefaultRoute name="dashboard" handler={Dashboard}/>

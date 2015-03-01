@@ -1,34 +1,18 @@
 var Router =  ReactRouter;
 var RouteHandler = Router.RouteHandler;
 
-var Authentication = {
-    mixins: [ Fluxxor.FluxMixin(React), Fluxxor.StoreWatchMixin("auth")],
-    statics: {
-        willTransitionTo: function (transition) {
-            if(!this.getFlux().store("auth").loggedIn()) {
-                transition.redirect('/login');
-            }
-        }
-    }
-};
-
 var Login = React.createClass({
     mixins: [ Fluxxor.FluxMixin(React), Fluxxor.StoreWatchMixin("auth")],
-    statics: {
-        willTransitionTo: function (transition) {
-            if(this.getFlux().store("auth").loggedIn()) {
-                transition.redirect('/');
-            }
-        },
+    getStateFromFlux: function() {
+        return {
+            error: this.getFlux().store("auth").getError(),
+        };
     },
     handleSubmit: function (event) {
         event.preventDefault();
         var account  = this.refs.account.getDOMNode().value;
         var password = this.refs.password.getDOMNode().value;
-        this.getFlux().actions.auth.login({
-            account: account,
-            password: password,
-        });
+        this.getFlux().actions.auth.login(account, password);
     },
     render: function () {
         var errors = this.state.error ? <p>Bad login information</p> : '';
@@ -56,10 +40,10 @@ var Login = React.createClass({
 });
 
 var Logout = React.createClass({
-    statics: {
-        willTransitionTo: function (transition) {
-            this.getFlux().actions.auth.logout();
-        },
+    mixins: [ Fluxxor.FluxMixin(React), Fluxxor.StoreWatchMixin("auth")],
+    getStateFromFlux: function() {
+        this.getFlux().actions.auth.logout();
+        return {};
     },
     render: function () {
         return <p>Logged out</p>;
@@ -67,57 +51,6 @@ var Logout = React.createClass({
 });
 
 module.exports = {
-    Authentication: Authentication,
     Login: Login,
     Logout: Logout
 };
-
-var auth = {
-    login: function (account, password, cb) {
-        cb = arguments[arguments.length - 1];
-        if (localStorage.token) {
-            if (cb) cb(true);
-            this.onChange(true);
-            return;
-        }
-        pretendRequest(account, password, function (res) {
-            if (res.authenticated) {
-                client.opts.token = localStorage.token = res.token;
-                if (cb) cb(true);
-                this.onChange(true);
-            } else {
-                if (cb) cb(false);
-                this.onChange(false);
-            }
-        }.bind(this));
-    },
-
-    getToken: function () {
-        return localStorage.token;
-    },
-
-    logout: function (cb) {
-        delete localStorage.token;
-        if (cb) cb();
-        this.onChange(false);
-    },
-
-    loggedIn: function () {
-        return !!localStorage.token;
-    },
-
-    onChange: function () {}
-};
-
-function pretendRequest(account, password, cb) {
-    setTimeout(function () {
-        client.tokens.create({account: account, password: password}).done(function(data){
-            cb({
-                authenticated: true,
-                token: data,
-            });
-        }).fail(function(){
-            cb({authenticated: false});
-        })
-    }, 0);
-}

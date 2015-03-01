@@ -6,9 +6,14 @@ var NOT_FOUND_TOKEN = {};
 
 var ProjectStore = Fluxxor.createStore({
     initialize: function() {
-        this.projectId  = 0;
-        this.error      = false;
-        this.projects   = {};
+        this.projectId = 0;
+        this.error     = false;
+        this.projects  = false;
+        this.project   = {
+            tasks: {},
+            topics: {},
+            docs: {},
+        };
 
         this.bindActions(
             actions.constants.PROJECT.ADD, this.handleAddProject,
@@ -18,19 +23,25 @@ var ProjectStore = Fluxxor.createStore({
     },
 
     getProjects: function() {
-        return Object.keys(this.projects).map(function(key) {
-            return this.projects[key];
+        client.projects.read().done(function(data){
+            this.projects = data;
         }.bind(this));
     },
 
-    getProject: function(id) {
-        return this.projects[id] || NOT_FOUND_TOKEN;
+    getProject: function(projectId) {
+        return this.projects[projectId];
+    },
+
+    getTasks: function(projectId) {
+        client.projects.tasks.read(projectId).done(function(data){
+            this.project.tasks = data;
+        }.bind(this));
     },
 
     handleAddProject: function(payload) {
         var project = {
-            name: payload.name.name,
-            desc: payload.name.desc,
+            name: payload.name,
+            desc: payload.desc,
         };
         client.projects.create(project).done(function(data){
             this.flux.actions.routes.transition("project", {projectId: data});

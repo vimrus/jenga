@@ -16,10 +16,7 @@ var New = React.createClass({
         event.preventDefault();
         var name = this.refs.name.getDOMNode().value;
         var desc = this.refs.desc.getDOMNode().value;
-        this.getFlux().actions.project.add({
-            name: name,
-            desc: desc,
-        });
+        this.getFlux().actions.project.add(name, desc);
     },
 
     render: function () {

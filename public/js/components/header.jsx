@@ -6,28 +6,17 @@ var React  = require("react"),
     Fluxxor = require('fluxxor');
 
 var Header = React.createClass({
-    mixins: [ Auth.Authentication, Fluxxor.FluxMixin(React), Fluxxor.StoreWatchMixin("member")],
+    mixins: [
+        Fluxxor.FluxMixin(React), 
+        Fluxxor.StoreWatchMixin("auth", "project"),
+    ],
     getStateFromFlux: function() {
         return {
-            me: this.getFlux().store("member").getMember('me'),
+            me: this.getFlux().store("auth").getMe(),
+            projects: this.getFlux().store("project").getProjects(),
         };
     },
 
-    /*
-    componentDidMount: function() {
-        client.members.read('me').done(function(data){
-            if (this.isMounted()) {
-                this.setState({
-                    username: data.name,
-                });
-            }
-        }.bind(this)).fail(function(jqXHR) {
-            if(jqXHR.status == 401) {
-                transition.redirect('/login');
-            } 
-        })
-    },
-    */
     render: function () {
         return (
             <div className="header">
