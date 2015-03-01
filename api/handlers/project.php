@@ -3,6 +3,8 @@ class ProjectsHandler extends AuthHandler
 {
     public function get()
     {
+        $projects = $this->loadModel('project')->getList();
+        return $this->json(200, $projects);
     }
 
     public function post()
@@ -14,10 +16,15 @@ class ProjectsHandler extends AuthHandler
         return $this->json(200, $idProject);
     }
 }
+class ProjectTasksHandler extends AuthHandler 
+{
+    public function get($project_id)
+    {
+        $tasks = $this->loadModel('task')->getList($project_id);
+        return $this->json(200, $tasks);
+    }
+}
 
 class ProjectHandler extends Handler 
 {
-    public function get()
-    {
-    }
 }

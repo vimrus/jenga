@@ -1,6 +1,11 @@
 <?php
 class ProjectModel extends Model
 {
+    public function getList()
+    {
+        return $this->db->query("SELECT * FROM project where deleted = '0'");
+    }
+
     public function create($name, $desc, $createdBy)
     {
         $this->db->bindMore(array(
