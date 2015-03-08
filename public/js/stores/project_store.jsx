@@ -6,8 +6,8 @@ var NOT_FOUND_TOKEN = {};
 
 var ProjectStore = Fluxxor.createStore({
     initialize: function() {
-        this.projectId = 0;
         this.error     = false;
+        this.projectId = 0;
         this.projects  = false;
         this.project   = {
             tasks: {},
@@ -32,9 +32,9 @@ var ProjectStore = Fluxxor.createStore({
         return this.projects[projectId];
     },
 
-    getTasks: function(projectId) {
-        client.projects.tasks.read(projectId).done(function(data){
-            this.project.tasks = data;
+    getEntries: function(projectId) {
+        client.projects.entries.read(projectId).done(function(data){
+            this.project.entries = data;
         }.bind(this));
     },
 

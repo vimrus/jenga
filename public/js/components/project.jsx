@@ -6,28 +6,63 @@ var Fluxxor = require('fluxxor');
 var State = Router.State;
 var Header = require('./header.jsx');
 
-var ProjectHeader = React.createClass({
+var TaskSection = React.createClass({
+    mixins: [ Fluxxor.FluxMixin(React), Fluxxor.StoreWatchMixin("project"), State],
+    getStateFromFlux: function() {
+        return {
+            entries: this.getFlux().store("project").getEntries(),
+            project: this.getFlux().store("project").getProject(),
+        };
+    },
+
+    render: function () {
+        var entries = [];
+        for(entry in this.state.entries) {
+            entries.push(<Entry data={entry} />)
+        }
+        
+        return (
+            <div className="entries">{entries}</div>
+            );
+    }
+});
+
+var Entry = React.createClass({
+    render: function () {
+        var entry = this.props.data;
+        var tasks = array();
+        for(task in entry.tasks) {
+            tasks.push(<TaskItem data={task}/>)
+        }
+        
+        return (
+            <div className="entry">{tasks}</div>
+            );
+    }
+});
+
+var TaskItem = React.createClass({
+    render: function () {
+        var task = this.props.data;
+        return (
+            <div>{task.title}</div>
+            );
+    }
+});
+
+var TaskSide = React.createClass({
     mixins: [ Fluxxor.FluxMixin(React), Fluxxor.StoreWatchMixin("project"), State],
     getStateFromFlux: function() {
         var params = this.getParams();
         return {
-            tasks: this.getFlux().store("project").getTasks(params.projectId),
+            entries: this.getFlux().store("project").getEntries(params.projectId),
             project: this.getFlux().store("project").getProject(params.projectId),
         };
     },
 
     render: function () {
         return (
-            <div className="main-head">
-              <div className="container">
-                <ul className="main-nav">
-                  <li><Link to="project" params={{projectId: this.state.project.id}}>任务</Link></li>
-                  <li><Link to="doc" params={{projectId: this.state.project.id}}>文档</Link></li>
-                  <li><Link to="topic" params={{projectId: this.state.project.id}}>讨论</Link></li>
-                </ul>
-                <h1>Dashboard</h1>
-              </div>
-            </div>
+            <div></div>
             );
     }
 });
@@ -45,7 +80,8 @@ var Project = React.createClass({
             <div>
               <Header/>
               <div className="main">
-                <ProjectHeader/>
+                <div className="entry column"><TaskSection /></div>
+                <div className="side column"><TaskSide /></div>
               </div>
               <RouteHandler/>
             </div>
