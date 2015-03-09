@@ -11,6 +11,7 @@ var Header = React.createClass({
         Fluxxor.StoreWatchMixin("auth", "project"),
     ],
     getStateFromFlux: function() {
+        this.getFlux().actions.project.list();
         return {
             me: this.getFlux().store("auth").getMe(),
             projects: this.getFlux().store("project").getProjects(),

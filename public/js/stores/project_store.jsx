@@ -8,7 +8,7 @@ var ProjectStore = Fluxxor.createStore({
     initialize: function() {
         this.error     = false;
         this.projectId = 0;
-        this.projects  = false;
+        this.projects  = [];
         this.project   = {
             tasks: {},
             topics: {},
@@ -16,6 +16,7 @@ var ProjectStore = Fluxxor.createStore({
         };
 
         this.bindActions(
+            actions.constants.PROJECT.LIST, this.handleListProject,
             actions.constants.PROJECT.LOAD, this.handleLoadProject,
             actions.constants.PROJECT.ADD, this.handleAddProject,
             actions.constants.PROJECT.EDIT, this.handleEditProject,
@@ -24,9 +25,7 @@ var ProjectStore = Fluxxor.createStore({
     },
 
     getProjects: function() {
-        client.projects.read().done(function(data){
-            this.projects = data;
-        }.bind(this));
+        return this.projects;
     },
 
     getProject: function() {
@@ -35,6 +34,14 @@ var ProjectStore = Fluxxor.createStore({
 
     getEntries: function() {
         return this.project.entries;
+    },
+
+    handleListProject: function(payload) {
+        client.projects.read().done(function(data){
+            this.projects = data;
+        }.bind(this));
+
+        this.emit("change");
     },
 
     handleLoadProject: function(payload) {

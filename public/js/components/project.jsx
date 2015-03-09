@@ -18,7 +18,7 @@ var TaskSection = React.createClass({
     render: function () {
         var entries = [];
         for(entry in this.state.entries) {
-            entries.push(<Entry data={entry} />)
+            entries.push(<Entry data={entry} />);
         }
         
         return (

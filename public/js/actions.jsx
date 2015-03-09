@@ -1,5 +1,6 @@
 var c = {
     PROJECT: {
+        LIST: "PROJECT:LIST",
         LOAD: "PROJECT:LOAD",
         ADD: "PROJECT:ADD",
         EDIT: "PROJECT:EDIT",
@@ -17,6 +18,9 @@ var c = {
 
 var methods = {
     project: {
+        list: function() {
+            this.dispatch(c.PROJECT.LIST);
+        },
         load: function(projectId) {
             this.dispatch(c.PROJECT.LOAD, projectId);
         },
