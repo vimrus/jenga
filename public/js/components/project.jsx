@@ -55,8 +55,8 @@ var TaskSide = React.createClass({
     getStateFromFlux: function() {
         var params = this.getParams();
         return {
-            entries: this.getFlux().store("project").getEntries(params.projectId),
-            project: this.getFlux().store("project").getProject(params.projectId),
+            entries: this.getFlux().store("project").getEntries(),
+            project: this.getFlux().store("project").getProject(),
         };
     },
 
@@ -68,10 +68,13 @@ var TaskSide = React.createClass({
 });
 
 var Project = React.createClass({
-    mixins: [ Fluxxor.FluxMixin(React), Fluxxor.StoreWatchMixin("member")],
+    mixins: [ Fluxxor.FluxMixin(React), Fluxxor.StoreWatchMixin("member"), State],
     getStateFromFlux: function() {
+        var projectId = this.getParams().projectId;
         this.getFlux().actions.auth.auth();
+        this.getFlux().actions.project.load(projectId);
         return {
+            projectId: projectId
         };
     },
 

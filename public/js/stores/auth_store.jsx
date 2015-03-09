@@ -53,7 +53,7 @@ var AuthStore = Fluxxor.createStore({
             password: payload.password,
         };
         client.tokens.create(user).done(function(data){
-            localStorage.token = data;
+            client.opts.token = localStorage.token = data;
             this.flux.actions.routes.transition("dashboard");
         }.bind(this));
 

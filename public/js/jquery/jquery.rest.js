@@ -294,7 +294,7 @@ Resource = (function() {
         if(params) {
             params.token = this.opts.token
         } else {
-            params = { 'token': this.opts.token }
+            params = { token: this.opts.token }
         }
     }
     numIds = ids.length;

@@ -39,7 +39,7 @@ var MemberStore = Fluxxor.createStore({
     // asynchrony too.
     setTimeout(function() {
       if (!payload.preventTransition) {
-        this.flux.actions.routes.transition("project", {id: project.id});
+        this.flux.actions.routes.transition("project", {projectId: project.id});
       }
     }.bind(this));
 
