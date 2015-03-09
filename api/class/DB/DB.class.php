@@ -141,6 +141,7 @@ class DB
     {	
         $this->parameters[sizeof($this->parameters)] = ":" . $para . "\x7F" . utf8_encode($value);
     }
+
     /**
      *	@void
      *	
@@ -156,11 +157,12 @@ class DB
             }
         }
     }
+
     /**
      *  If the SQL query  contains a SELECT or SHOW statement it returns an array containing all of the result set row
      *	If the SQL statement is a DELETE, INSERT, or UPDATE statement it returns the number of affected rows
      *
-     *   	@param  string $query
+     *  @param  string $query
      *	@param  array  $params
      *	@param  int    $fetchmode
      *	@return mixed
@@ -181,10 +183,39 @@ class DB
         }
         elseif ( $statement === 'insert' ||  $statement === 'update' || $statement === 'delete' ) {
             return $this->sQuery->rowCount();	
-        }	
+        }
         else {
             return NULL;
         }
+    }
+
+    /**
+     * Fetch All objects.
+     * 
+     * @param  int    $query 
+     * @param  int    $keyField 
+     * @param  int    $params 
+     * @access public
+     * @return void
+     */
+    public function fetchAll($query, $keyField = null, $params = null)
+    {
+        $rows = $this->query($query, $params, PDO::FETCH_OBJ);
+        if($keyField == null) return $rows;
+
+        $result = array();
+        foreach($rows as $row) $result[$row->$keyField] = $row;
+        return $result;
+    }
+
+    public function fetchPairs($query, $params = null)
+    {
+        $rows = $this->query($query, $params, PDO::FETCH_NUM);
+        if($keyField == null) return $rows;
+
+        $result = array();
+        foreach($rows as $row) $result[$row[$keyField]] = $row;
+        return $result;
     }
 
     /**
@@ -215,20 +246,27 @@ class DB
 
         return $column;
 
-    }	
+    }
+
     /**
      *	Returns an array which represents a row from the result set 
      *
      *	@param  string $query
      *	@param  array  $params
-     *   	@param  int    $fetchmode
+     *  @param  int    $fetchmode
      *	@return array
      */	
-    public function row($query,$params = null,$fetchmode = PDO::FETCH_ASSOC)
-    {				
+    public function row($query, $params = null, $fetchmode = PDO::FETCH_ASSOC)
+    {
         $this->Init($query,$params);
         return $this->sQuery->fetch($fetchmode);			
     }
+
+    public function fetch($query, $params = null)
+    {
+        return $this->row($query, $params, PDO::FETCH_OBJ);			
+    }
+
     /**
      *	Returns the value of one single field/column
      *

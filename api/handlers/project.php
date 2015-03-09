@@ -11,11 +11,12 @@ class ProjectsHandler extends AuthHandler
     {
         $name = $_POST['name'];
         $desc = $_POST['desc'];
-        $idProject = $this->loadModel('project')->create($name, $desc, $this->idMember);
+        $projectID = $this->loadModel('project')->create($name, $desc, $this->idMember);
 
-        return $this->json(200, $idProject);
+        return $this->json(200, $projectID);
     }
 }
+
 class ProjectTasksHandler extends AuthHandler 
 {
     public function get($project_id)
@@ -27,4 +28,9 @@ class ProjectTasksHandler extends AuthHandler
 
 class ProjectHandler extends Handler 
 {
+    public function get($project_id)
+    {
+        $project = $this->loadModel('project')->getById($project_id);
+        return $this->json(200, $project);
+    }
 }
