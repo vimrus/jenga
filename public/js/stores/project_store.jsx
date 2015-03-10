@@ -40,8 +40,6 @@ var ProjectStore = Fluxxor.createStore({
         client.projects.read().done(function(data){
             this.projects = data;
         }.bind(this));
-
-        this.emit("change");
     },
 
     handleLoadProject: function(payload) {

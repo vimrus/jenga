@@ -1,9 +1,10 @@
-var React  = require("react"),
+var React  = require('react'),
     Router =  ReactRouter,
     RouteHandler = Router.RouteHandler,
-    Link    = Router.Link,
-    Auth    = require('./auth.jsx'),
-    Fluxxor = require('fluxxor');
+    Link     = Router.Link,
+    Auth     = require('./auth.jsx'),
+    SkyLight = require('react-skylight'),
+    Fluxxor  = require('fluxxor');
 
 var Header = React.createClass({
     mixins: [
@@ -17,25 +18,29 @@ var Header = React.createClass({
             projects: this.getFlux().store("project").getProjects(),
         };
     },
+    showDialog: function() {
+        this.refs.dialog.show();
+    },
 
     render: function () {
         return (
             <div className="header">
               <div className="container">
                 <h1 className="logo"><Link to="app">Jenga</Link></h1>
-                <ul className="header-nav left">
-                </ul>
+                <form className="header-search">
+                  <input id="search-box" name="q" type="text" />
+                </form>
+                <button onClick={this.showDialog}>projects</button>
                 <ul className="header-nav right">
-                 <li>
-                   <form className="header-search">
-                     <input id="search-box" name="q" type="text" />
-                   </form>
-                 </li>
                  <li><Link to="dashboard">{this.state.me.name}</Link></li>
                  <li><Link to="new">New</Link></li>
                  <li><Link to="logout">Logout</Link></li>
                 </ul>
               </div>
+              <SkyLight ref="dialog">
+                <h1>dialog</h1>
+                <p>dialog</p>
+              </SkyLight>
             </div>
             );
     }
