@@ -1,5 +1,6 @@
 var Router = ReactRouter;
 var RouteHandler = Router.RouteHandler;
+var Link = Router.Link;
 var Fluxxor = require('fluxxor');
 var Header = require('./header.jsx');
 
